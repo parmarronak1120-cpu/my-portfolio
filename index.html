@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ronak Portfolio</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #0f172a;
+    color: white;
+}
+
+header {
+    text-align: center;
+    padding: 40px;
+}
+h1 span { color: #00f7ff; }
+
+.section {
+    padding: 40px;
+    text-align: center;
+}
+
+.card {
+    background: #1e293b;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 15px;
+    display: inline-block;
+    width: 220px;
+    transition: 0.3s;
+}
+.card:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px #00f7ff;
+}
+
+/* FLOAT BUTTON */
+.floating-btn {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background: #00f7ff;
+    padding: 15px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* WHATSAPP */
+.whatsapp-btn {
+    position: fixed;
+    bottom: 25px;
+    left: 25px;
+    background: #25D366;
+    color: white;
+    font-size: 24px;
+    padding: 15px;
+    border-radius: 50%;
+    text-decoration: none;
+}
+
+/* INSTAGRAM */
+.instagram-btn {
+    position: fixed;
+    bottom: 90px;
+    left: 25px;
+    background: linear-gradient(45deg,#f58529,#dd2a7b,#8134af);
+    color: white;
+    padding: 15px;
+    border-radius: 50%;
+    text-decoration: none;
+}
+
+/* GALLERY */
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+    gap: 10px;
+}
+
+.gallery img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.gallery img:hover {
+    transform: scale(1.1);
+}
+
+/* LIGHTBOX */
+.lightbox {
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.95);
+    display:none;
+    justify-content:center;
+    align-items:center;
+}
+
+/* OPEN animation */
+.lightbox img {
+    max-width:80%;
+    max-height:80%;
+    border-radius:10px;
+    animation: zoomIn 0.4s;
+}
+
+@keyframes zoomIn {
+    from{transform:scale(0.6); opacity:0;}
+    to{transform:scale(1); opacity:1;}
+}
+
+/* CLOSE animation */
+.lightbox.hide img {
+    animation: zoomOut 0.3s forwards;
+}
+
+@keyframes zoomOut {
+    from{transform:scale(1); opacity:1;}
+    to{transform:scale(0.6); opacity:0;}
+}
+
+/* NAV */
+.nav {
+    position:absolute;
+    top:50%;
+    font-size:40px;
+    cursor:pointer;
+}
+.prev { left:30px; }
+.next { right:30px; }
+
+.close {
+    position:absolute;
+    top:20px;
+    right:30px;
+    font-size:30px;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Hi, I'm <span>Ronak</span></h1>
+</header>
+
+<div class="section">
+    <h2>About Me</h2>
+    <p>I am a diploma IT student. I love coding, web design and AI tools.</p>
+</div>
+
+<div class="section">
+    <h2>My Skills</h2>
+    <div class="card">HTML</div>
+    <div class="card">CSS</div>
+    <div class="card">Java</div>
+    <div class="card">JavaScript</div>
+    <div class="card">AI Tools</div>
+</div>
+
+<div class="section">
+    <h2>📸 My Photo Album</h2>
+    <div class="gallery">
+        <img src="photos.png" onclick="openImage(0)">
+        <img src="photos1.jpeg" onclick="openImage(1)">
+        <img src="photos2.png" onclick="openImage(2)">
+        <img src="photos3.jpeg" onclick="openImage(3)">
+        <img src="photos4.jpeg" onclick="openImage(4)">
+        <img src="photos5.jpg" onclick="openImage(5)">
+        <img src="photos6.jpeg" onclick="openImage(6)">
+        <img src="photos7.jpg" onclick="openImage(7)">
+    </div>
+</div>
+
+<div class="section">
+    <h2>Projects</h2>
+    <div class="card">Mobile Store Website</div>
+    <div class="card">Portfolio Website</div>
+</div>
+
+<!-- FLOAT -->
+<div class="floating-btn" onclick="scrollToGallery()">📸</div>
+
+<!-- WHATSAPP -->
+<a href="https://wa.me/919913102838" class="whatsapp-btn" target="_blank">💬</a>
+
+<!-- INSTAGRAM -->
+<a href="https://instagram.com/___ronakparmar___" class="instagram-btn" target="_blank">📸</a>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+<span class="close" onclick="closeImage()">×</span>
+<span class="nav prev" onclick="prev()">❮</span>
+<img id="lightbox-img">
+<span class="nav next" onclick="next()">❯</span>
+</div>
+
+<script>
+let images = [
+"photos.png","photos1.jpeg","photos2.png","photos3.jpeg",
+"photos4.jpeg","photos5.jpg","photos6.jpeg","photos7.jpg"
+];
+
+let index = 0;
+
+function openImage(i){
+index = i;
+let box = document.getElementById("lightbox");
+box.style.display="flex";
+document.getElementById("lightbox-img").src = images[index];
+}
+
+function closeImage(){
+let box = document.getElementById("lightbox");
+box.classList.add("hide");
+
+setTimeout(()=>{
+box.style.display="none";
+box.classList.remove("hide");
+},300);
+}
+
+function next(){
+index = (index+1) % images.length;
+document.getElementById("lightbox-img").src = images[index];
+}
+
+function prev(){
+index = (index-1+images.length) % images.length;
+document.getElementById("lightbox-img").src = images[index];
+}
+
+document.addEventListener("keydown", function(e){
+if(e.key==="ArrowRight") next();
+if(e.key==="ArrowLeft") prev();
+if(e.key==="Escape") closeImage();
+});
+
+function scrollToGallery(){
+document.querySelector(".gallery").scrollIntoView({behavior:"smooth"});
+}
+</script>
+
+</body>
+</html>
